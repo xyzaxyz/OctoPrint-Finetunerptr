@@ -18,7 +18,7 @@ class FineTuneRptrPlugin(octoprint.plugin.AssetPlugin,
         )
 
     def get_template_configs(self):
-        return [ dict(type="tab", template="tab.jinja2", custom_bindings=True) ]
+        return [ dict(type="tab", template="tab.html.j2", custom_bindings=True) ]
 
     def get_update_information(self):
     	return dict(
