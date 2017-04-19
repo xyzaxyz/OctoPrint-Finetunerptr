@@ -1,0 +1,57 @@
+.eepromCollapse {}
+
+.eepromContentPanel {
+    margin-bottom: 10px;
+}
+
+.panel-heading{
+  height:100%;
+}
+
+.btnIcon{
+  margin-right: 4px;
+}
+
+.categorizedEepromCategory {
+    border: 1px solid #DDD;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border-radius: 3px;
+    width: 65%;
+    /*background: -webkit-linear-gradient(bottom, rgba(228, 228, 228, 0.5), white);*/
+    /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);*/
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+}
+
+.eepromContentDescriptionLabel {
+    padding-right: 25px;
+}
+
+.eepromContentInputBox {
+    margin: 0!important;
+    padding: 1px 0 1px 15px!important;
+    font: 12px Consolas, sans-serif!important;
+    width: 80px;
+}
+
+.eepromCategorySettingsIcon {
+    float: left;
+    margin-right: 15px;
+}
+
+.eepromCategorySettingsCounter {
+    display: inline;
+    float: right;
+    margin-right: 15px;
+    width: 25px;
+    font: 14px Consolas, sans-serif;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(25, 136, 204, 0.74);
+    padding: 1px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #777;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.52);
+}
