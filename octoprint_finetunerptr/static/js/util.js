@@ -1,4 +1,4 @@
-var collapseAllBootstrapAccordionPanels = (index) => {
+var collapseAllBootstrapAccordionPanels = function(index) {
    var elements = document.getElementsByClassName('eepromCollapse');
    for (var i = 0; i < elements.length; i++) {
       if (i !== index) {
@@ -11,7 +11,7 @@ var collapseAllBootstrapAccordionPanels = (index) => {
 
 
 
-var updateFavorites = (data) => {
+var updateFavorites = function(data) {
   //  console.log("############# updateFavorites clicked #############");
    var _fullname = "__eepromSettings__favorites";
    var savedData = JSON.parse(localStorage.getItem(_fullname));
@@ -41,16 +41,16 @@ var updateFavorites = (data) => {
    scopeFavorites(_localStorageData.eepromFavorites);
 };
 
-var scopeFavorites = (favArray) => {
+var scopeFavorites = function(favArray) {
    return new Promise(function(resolve, reject) {
       let promises = [];
       // console.log("#scopeFavorites");
       self.categorizedEeprom[0].EEPROM_Descriptions = favArray;
 
       for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
-         let prom = new Promise((resolve, reject) => {
+         let prom = new Promise(function(resolve, reject) {
             getEepromValue(favArray[favArrCount])
-               .then((dataObj) => {
+               .then(function(dataObj){
                   var eepromValuesObj = {
                      'category': dataObj.category,
                      'description': dataObj.description,
@@ -65,7 +65,7 @@ var scopeFavorites = (favArray) => {
          });
          promises.push(prom);
       }
-      Promise.all(promises).then(values => {
+      Promise.all(promises).then(function(values) {
          self.categorizedEeprom[0].EEPROM_Values([]);
          for (let v in values) {
             self.categorizedEeprom[0].EEPROM_Values.push(values[v]);
@@ -75,7 +75,7 @@ var scopeFavorites = (favArray) => {
    });
 };
 
-var getEepromValue = (description) => {
+var getEepromValue = function(description){
    return new Promise(function(resolve, reject) {
       var output = {};
       for (var i = 0; i < self.categorizedEeprom.length; i++) {

@@ -48,44 +48,44 @@ $(function() {
       });
 
 
-      self.updateFavorites = (data) => updateFavorites(data);
+      self.updateFavorites = function(data) {updateFavorites(data)};
       // Methods ######################################################################################
 
-      self.fromHistoryData = (data) => {
-         _.each(data.logs, (line) => {
+      self.fromHistoryData = function(data) {
+         _.each(data.logs, (line) {
             fromCurrentData_noRFw(line)
          });
       };
-      self.fromCurrentData = (data) => {
+      self.fromCurrentData = function(data) {
          if (!self.isRepetierFirmware()) {
-            _.each(data.logs, (line) => {
+            _.each(data.logs, function(line) {
                fromCurrentData_noRFw(line)
             });
          } else {
-            _.each(data.logs, (line) => {
+            _.each(data.logs, function(line)  {
                fromCurrentData_isRFw(line)
             });
          }
       };
-      var fromCurrentData_noRFw = (line) => {
+      var fromCurrentData_noRFw = function(line)  {
          var match = self.firmwareRegEx.exec(line);
          if (match) {
             if (self.repetierRegEx.exec(match[0]))
                self.isRepetierFirmware(true);
          }
       };
-      var fromCurrentData_isRFw = (line) => {
+      var fromCurrentData_isRFw = function(line)  {
          var match = self.eepromDataRegEx.exec(line);
          if (match) {
             var description = match[4];
             categorizeEepromReading(match[4])
-               .then((category) => {
+               .then(function(category)  {
                   regexPushObject(category, match);
                })
          }
       }
 
-      var categorizeEepromReading = (description) => {
+      var categorizeEepromReading = function(description)  {
          //  console.log("#categorizeEepromReading");
          return new Promise(function(resolve, reject) {
             for (var i = 0; i < self.categorizedEeprom().length; i++) {
@@ -97,7 +97,7 @@ $(function() {
          });
       };
 
-      var regexPushObject = (category, match) => {
+      var regexPushObject = function(category, match)  {
          //  console.log("#regexPushObject"); //,category,match);
          for (var i = 0; i < self.categorizedEeprom().length; i++) {
             if (self.categorizedEeprom()[i].Name == category) {
@@ -119,10 +119,10 @@ $(function() {
       };
 
       // (js/util.js)
-      self.collapseAllBootstrapAccordionPanels = () => collapseAllBootstrapAccordionPanels();
-      self.addToFav = (data) => addToFav(data); // util.js
+      self.collapseAllBootstrapAccordionPanels = function() {collapseAllBootstrapAccordionPanels()};
+      self.addToFav = function(data){addToFav(data);} // util.js
 
-      self.loadEeprom = () => {
+      self.loadEeprom = function()  {
          (function() {
             return new Promise(function(resolve, reject) {
                for (var l = 0; l < self.categorizedEeprom().length; l++) {
@@ -133,13 +133,13 @@ $(function() {
                }
             });
          })()
-         .then(() => {
+         .then(function()  {
             console.log("Loading EEPROM");
             self._requestEepromData();
          });
       };
 
-      self.saveEeprom = () => {
+      self.saveEeprom = function()  {
          console.log("Saving EEPROM");
          //  console.log("TODO:: Implement SaveEEPROM");
          for (let i in self.categorizedEeprom()) {
@@ -154,12 +154,14 @@ $(function() {
          }
       };
 
-      self._requestFirmwareInfo = () => self.control.sendCustomCommand({
+      self._requestFirmwareInfo = function() {self.control.sendCustomCommand({
          command: "M115"
       });
-      self._requestEepromData = () => self.control.sendCustomCommand({
+    };
+      self._requestEepromData = function() {self.control.sendCustomCommand({
          command: "M205"
       });
+    };
       self._requestSaveDataToEeprom = function(data_type, position, value) {
          var cmd = "M206 T" + data_type + " P" + position;
          if (data_type == 3) {
@@ -176,9 +178,9 @@ $(function() {
       };
 
       // EventHandlers ################################################################################
-      self.onEventConnected = () => self._requestFirmwareInfo();
-      self.onEventDisconnected = () => self.isRepetierFirmware(false);
-      self.onStartup = () => {
+      self.onEventConnected = function() { self._requestFirmwareInfo();};
+      self.onEventDisconnected = function()  {self.isRepetierFirmware(false);};
+      self.onStartup = function() {
          //  console.log("tab_plugin_octoprint_RepetierMaintenanceHelper startUp");
          $('#tab_plugin_octoprint_RepetierMaintenanceHelper a').on('show', function(e) {
             if (self.isConnected() && !self.isRepetierFirmware()) {
