@@ -182,7 +182,7 @@ $(function() {
       self.onEventDisconnected = function()  {self.isRepetierFirmware(false);};
       self.onStartup = function() {
          //  console.log("tab_plugin_octoprint_RepetierMaintenanceHelper startUp");
-         $('#tab_plugin_octoprint_RepetierMaintenanceHelper a').on('show', function(e) {
+         $('#tab_plugin_octoprint_finetunerptr a').on('show', function(e) {
             if (self.isConnected() && !self.isRepetierFirmware()) {
                self._requestFirmwareInfo();
             }
@@ -193,6 +193,6 @@ $(function() {
 
    OCTOPRINT_VIEWMODELS.push([
       FinetunerptrViewModel, ["controlViewModel", "connectionViewModel"],
-      "#tab_plugin_octoprint_RepetierMaintenanceHelper"
+      "#tab_plugin_octoprint_finetunerptr"
    ]);
 });
