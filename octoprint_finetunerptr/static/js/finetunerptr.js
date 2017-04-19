@@ -52,7 +52,7 @@ $(function() {
       // Methods ######################################################################################
 
       self.fromHistoryData = function(data) {
-         _.each(data.logs, (line) {
+         _.each(data.logs, function(line) {
             fromCurrentData_noRFw(line)
          });
       };
