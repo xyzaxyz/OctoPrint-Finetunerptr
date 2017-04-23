@@ -1,21 +1,31 @@
 /* ########################################################
- * OctoPrint-RepetierMaintenanceHelper
- * Created on 15.04.2017
  *
- * Author: Andreas Bruckmann
- * License: AGPLv3
+ *             FineTuneRptr   |     04/2017
+ *  Author: Andreas Bruckmann | License: AGPLv3
+ *
  * ########################################################
- *              Inspirations / Making Use of:
- *     https://gist.github.com/bradmontgomery/2219997
- *  https://github.com/Salandora/OctoPrint-EEPROM-Repetier
+ *
+ *  Keeps important calibration settings always accessible.
+ *  As it's not integrated to any subpage, tab or settings,
+ *  you can easily use it from whichever page in OctoPrint.
+ *
  * ########################################################
+ *
+ *  Making Use of:
+ *  OctoPrint EEPROM Editor by Salandora https://github.com/Salandora/OctoPrint-EEPROM-Repetier
+ *  FontAwesome Icons http://fontawesome.io/3.2.1/icons/
+ *  Accordion: Bootstrap https://www.w3schools.com/bootstrap/bootstrap_collapse.asp
+ *  OctoPrint API http://docs.octoprint.org/en/master/jsclientlib/index.html
+ *
+ * ########################################################
+ *
  */
 
 /*
      TODO:
-       - Testsystem: Kein Extruder und Heatbed vorhanden, diese Kategorien müssen noch kommen
-       - Kategorie "Other" für nicht erkannte einrichten
-       - Export/Import Full EEPROM nach Repetier Host kompatiblem Format
+       - //Kategorie "Other" für nicht erkannte einrichten
+       - Add Extruder+HeatBed Category
+       - Export/Import Full EEPROM compatible for Repetier Host
 
      BUG:
       - Wenn EEPROM geladen wird, werden Favoriten angezeigt und in ihrer normalen Kategorie
@@ -29,9 +39,6 @@ $(function() {
       var self = this;
       self.control = parameters[0];
       self.connection = parameters[1];
-      self.firmwareRegEx = /FIRMWARE_NAME:([^\s]+)/i;
-      self.repetierRegEx = /Repetier_([^\s]*)/i;
-      self.eepromDataRegEx = /EPR:(\d+) (\d+) ([^\s]+) (.+)/;
       self.isRepetierFirmware = ko.observable(false);
 
       self.isConnected = ko.computed(function() {
@@ -44,49 +51,80 @@ $(function() {
 
       self.loadedEepromSettingsCounter = ko.observable(0);
       self.eepromLoaded = ko.computed(function() {
-         return (self.loadedEepromSettingsCounter() > 51) ? true : false;
+         return (self.loadedEepromSettingsCounter() > 51);
       });
 
-
-      self.updateFavorites = function(data) {updateFavorites(data)};
       // Methods ######################################################################################
+      // Show Panel Dropdown
+      self.toggleNavbarDropdownPanel = function(strict) {
+         toggleNavbarDropdownPanel(strict);
+      }
 
+      // EEPROM Accordion Dropdown
+      self.collapseAllBootstrapAccordionPanels = function() {
+         collapseAllBootstrapAccordionPanels()
+      };
+
+      // EEPROM Add to Favorites
+      self.addToFav = function(data) {
+         addToFav(data);
+      } // util.js
+
+      // EEPROM Favorites Management
+      self.updateFavorites = function(data, method) {
+         updateFavorites(data, method);
+      };
+
+      // Motors Off
+      self.setPrinterRepetierMotorsOff = function() {
+         self.control.sendCustomCommand({
+            command: 'M84'
+         });
+      };
+
+      //  Printer Home XY
+      self.setPrinterHomeXY = function() {
+         self.control.sendCustomCommand({
+            command: 'G28 X0 Y0'
+         });
+      };
+
+      // EEPROM Methods
       self.fromHistoryData = function(data) {
          _.each(data.logs, function(line) {
-            fromCurrentData_noRFw(line)
+            fromCurrentData_noRFw(line);
          });
       };
       self.fromCurrentData = function(data) {
          if (!self.isRepetierFirmware()) {
             _.each(data.logs, function(line) {
-               fromCurrentData_noRFw(line)
+               fromCurrentData_noRFw(line);
             });
          } else {
-            _.each(data.logs, function(line)  {
-               fromCurrentData_isRFw(line)
+            _.each(data.logs, function(line) {
+               fromCurrentData_isRFw(line);
             });
          }
       };
-      var fromCurrentData_noRFw = function(line)  {
-         var match = self.firmwareRegEx.exec(line);
+      var fromCurrentData_noRFw = function(line) {
+         var match = /FIRMWARE_NAME:([^\s]+)/i.exec(line);
          if (match) {
-            if (self.repetierRegEx.exec(match[0]))
+            if (/Repetier_([^\s]*)/i.exec(match[0]))
                self.isRepetierFirmware(true);
          }
       };
-      var fromCurrentData_isRFw = function(line)  {
-         var match = self.eepromDataRegEx.exec(line);
+      var fromCurrentData_isRFw = function(line) {
+         var match = /EPR:(\d+) (\d+) ([^\s]+) (.+)/.exec(line);
          if (match) {
             var description = match[4];
             categorizeEepromReading(match[4])
-               .then(function(category)  {
+               .then(function(category) {
                   regexPushObject(category, match);
                })
          }
       }
 
-      var categorizeEepromReading = function(description)  {
-         //  console.log("#categorizeEepromReading");
+      var categorizeEepromReading = function(description) {
          return new Promise(function(resolve, reject) {
             for (var i = 0; i < self.categorizedEeprom().length; i++) {
                if (self.categorizedEeprom()[i].EEPROM_Descriptions.indexOf(description) != -1) {
@@ -97,8 +135,7 @@ $(function() {
          });
       };
 
-      var regexPushObject = function(category, match)  {
-         //  console.log("#regexPushObject"); //,category,match);
+      var regexPushObject = function(category, match) {
          for (var i = 0; i < self.categorizedEeprom().length; i++) {
             if (self.categorizedEeprom()[i].Name == category) {
                var outputObj = {
@@ -118,13 +155,10 @@ $(function() {
          }
       };
 
-      // (js/util.js)
-      self.collapseAllBootstrapAccordionPanels = function() {collapseAllBootstrapAccordionPanels()};
-      self.addToFav = function(data){addToFav(data);} // util.js
-
-      self.loadEeprom = function()  {
+      self.loadEeprom = function() {
          (function() {
             return new Promise(function(resolve, reject) {
+               //first reset/clear everything
                for (var l = 0; l < self.categorizedEeprom().length; l++) {
                   self.categorizedEeprom()[l].EEPROM_Values([]);
                }
@@ -133,20 +167,19 @@ $(function() {
                }
             });
          })()
-         .then(function()  {
-            console.log("Loading EEPROM");
+         .then(function() {
+            // console.log("Loading EEPROM");
             self._requestEepromData();
          });
       };
 
-      self.saveEeprom = function()  {
-         console.log("Saving EEPROM");
-         //  console.log("TODO:: Implement SaveEEPROM");
+      self.saveEeprom = function() {
+        //  console.log("Saving EEPROM");
          for (let i in self.categorizedEeprom()) {
             for (let j in self.categorizedEeprom()[i].EEPROM_Values()) {
                var valObj = self.categorizedEeprom()[i].EEPROM_Values()[j];
                if (valObj.origValue !== valObj.value) {
-                  console.log("Change detected: ", valObj.value, valObj.origValue, valObj, i, j);
+                  // console.log("Change detected: ", valObj.value, valObj.origValue, valObj, i, j);
                   self._requestSaveDataToEeprom(valObj.dataType, valObj.position, valObj.value);
                   valObj.origValue = valObj.value;
                }
@@ -154,14 +187,16 @@ $(function() {
          }
       };
 
-      self._requestFirmwareInfo = function() {self.control.sendCustomCommand({
-         command: "M115"
-      });
-    };
-      self._requestEepromData = function() {self.control.sendCustomCommand({
-         command: "M205"
-      });
-    };
+      self._requestFirmwareInfo = function() {
+         self.control.sendCustomCommand({
+            command: "M115"
+         });
+      };
+      self._requestEepromData = function() {
+         self.control.sendCustomCommand({
+            command: "M205"
+         });
+      };
       self._requestSaveDataToEeprom = function(data_type, position, value) {
          var cmd = "M206 T" + data_type + " P" + position;
          if (data_type == 3) {
@@ -178,21 +213,24 @@ $(function() {
       };
 
       // EventHandlers ################################################################################
-      self.onEventConnected = function() { self._requestFirmwareInfo();};
-      self.onEventDisconnected = function()  {self.isRepetierFirmware(false);};
+      self.onEventConnected = function() {
+         self._requestFirmwareInfo();
+      };
+      self.onEventDisconnected = function() {
+         self.isRepetierFirmware(false);
+      };
       self.onStartup = function() {
-         //  console.log("tab_plugin_octoprint_RepetierMaintenanceHelper startUp");
-         $('#tab_plugin_octoprint_finetunerptr a').on('show', function(e) {
+         $('#navbar_plugin_octoprint_finetunerptr a').on('show', function(e) {
             if (self.isConnected() && !self.isRepetierFirmware()) {
                self._requestFirmwareInfo();
             }
          });
       };
-
+      // sidebar_plugin_octoprint_finetunerptr_wrapper
    }
-
-   OCTOPRINT_VIEWMODELS.push([
-      FinetunerptrViewModel, ["controlViewModel", "connectionViewModel"],
-      "#tab_plugin_octoprint_finetunerptr"
-   ]);
+   OCTOPRINT_VIEWMODELS.push({
+      construct: FinetunerptrViewModel,
+      dependencies: ["controlViewModel", "connectionViewModel"],
+      elements: ["#navbar_plugin_octoprint_finetunerptr"]
+   });
 });

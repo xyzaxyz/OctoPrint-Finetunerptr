@@ -1,9 +1,5 @@
 # coding=utf-8
 from __future__ import absolute_import
-"""
-Inspirations / Making Use of:
-https://github.com/Salandora/OctoPrint-EEPROM-Repetier
-"""
 import octoprint.plugin
 import octoprint.server
 
@@ -18,7 +14,7 @@ class FineTuneRptrPlugin(octoprint.plugin.AssetPlugin,
         )
 
     def get_template_configs(self):
-        return [ dict(type="tab", template="tab.html.j2", custom_bindings=True) ]
+        return [ dict(type="navbar", template="finetunerptr.html.j2", custom_bindings=True) ]
 
     def get_update_information(self):
     	return dict(

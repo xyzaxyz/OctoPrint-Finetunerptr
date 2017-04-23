@@ -1,0 +1,117 @@
+<!--
+  http://docs.octoprint.org/en/master/jsclientlib/index.html
+-->
+<script type="text/javascript" src="{{ url_for("static", filename="js/lib/jquery/jquery.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/lib/lodash.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/app/client/base.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/app/client/socket.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/app/client/connection.js") }}"></script>
+<script>var opClient = new OctoPrintClient({baseurl: "", apikey: ""});</script>
+
+
+<a class="pull-right finetunerptr_dropdownBtn" data-bind="click: function(){ toggleNavbarDropdownPanel(); }" title="FineTuneRptr">
+    <i class="icon-crop"></i>
+    <b class="caret dropDownCaret"></b>
+</a>
+<div class="finetunerptr_dropdown" style="display: none;">
+
+  <form style="float:left;">
+    <div class="form-group">
+    <h5 style="margin:0;">Printer Connection</h5>
+    <div data-bind="if: !isConnected()">
+      <button class="btn" data-bind="click: function(){opClient.connection.connect()}">
+      <i class="icon-signin btnIcon"></i>Connect</button>
+    </div>
+    <div data-bind="if: isConnected()">
+      <button class="btn" data-bind="click: function(){opClient.connection.disconnect()}">
+      <i class="icon-signout btnIcon"></i>Disconnect</button>
+    </div>
+    </div>
+  </form>
+
+  <form style="float:left; margin-left: 12px; padding-left: 12px; border-left: 1px solid #DDD;">
+    <div class="form-group">
+    <h5 style="margin:0;">Printer Controls</h5>
+      <button class="btn" data-bind="click: function(){ setPrinterRepetierMotorsOff(); }">Motors Off</button>
+      <button class="btn" data-bind="click: function(){ setPrinterHomeXY(); }">Home XY</button>
+    </div>
+  </form>
+
+  <div style="clear:both"></div>
+
+  <!-- Indicator -->
+  <div class="indicatorShell">
+
+    <div data-bind="visible: ($root.eepromLoaded() && isConnected())" style="background-color:#1ec31e;" title="EEPROM Loaded." class="indicatorBody"></div>
+    <div data-bind="visible: (!$root.eepromLoaded() && isConnected())" style="background-color:orange;" title="EEPROM ready to load." class="indicatorBody"></div>
+    <div data-bind="visible: !isConnected()" style="background-color:red;" title="No Connection to printer." class="indicatorBody"></div>
+    <div data-bind="visible: (isConnected() && !isRepetierFirmware())" style="background-color:red;" title="The connected printer is not based on Repetier-Firmware." class="indicatorBody"></div>
+
+  </div>
+
+  <h5 style="margin:0;float:left;">EEPROM Manager</h5>
+
+
+  <form class="form-horizontal" style="margin: -8px 0 15px 10px;float:left;">
+      <button class="btn" data-bind="enabled: isRepetierFirmware, click: loadEeprom, visible: (isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
+        <i class="icon-download-alt btnIcon"></i>Load</button>
+
+      <button class="btn" data-bind="enabled: isRepetierFirmware, click: saveEeprom, visible: ($root.eepromLoaded && isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
+        <i class="icon-upload-alt btnIcon"></i>Save</button>
+  </form>
+
+  <div style="clear:both"></div>
+
+  <!-- Selection -->
+    <div data-bind="visible: ($root.eepromLoaded() && isConnected()), foreach: self.categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
+      <div class="categorizedEepromCategory panel panel-default">
+        <div class="panel-heading">
+
+          <h5 class="panel-title" data-bind="click: function(){collapseAllBootstrapAccordionPanels($index());}">
+            <!-- Icon -->
+            <div class="eepromCategorySettingsIcon">
+              <i data-bind="attr:{class: 'icon-' + self.categorizedEeprom[$index()].Icon}"></i>
+            </div>
+            <!-- /Icon -->
+            <!-- Counter Blob, indicates how much devices are in this category -->
+            <div data-bind="if: $root.eepromLoaded()" class="eepromCategorySettingsCounter">
+              <span data-bind="text: EEPROM_Values().length"></span>
+            </div>
+            <!-- /Counter Blob -->
+            <a data-toggle="collapse" data-parent="#accordion" data-bind="text: Name, attr:{href: '#collapse' + $index()}">
+            </a>
+          </h5>
+        </div>
+        <!-- Accordion Panel Body -->
+          <div data-bind="if: $root.eepromLoaded(), attr:{id: 'collapse' + $index()}" class="eepromCollapse panel-collapse collapse">
+            <i data-bind="visible: (EEPROM_Values().length<1)">
+            Nothing to show here yet.
+            </i>
+            <table class="panel-body eepromContentPanel">
+            <!-- Iterating over EEPROM_Values from this category -->
+            <tbody data-bind="foreach: $data.EEPROM_Values()">
+              <tr>
+                <!-- addToFavorites -->
+                <td style="padding: 0 7px;">
+
+                  <i style="font-size: 10px; color: #0088cc;" data-bind="visible: ($parent.Name == 'Favorites'), attr: {class: 'icon-' + $data.Icon }"></i>
+
+                  <i class="icon-star" data-bind="visible: ($parent.Name != 'Favorites'),click: function(){updateFavorites($data, 1);}"></i>
+
+                </td>
+                <!-- description -->
+                <td data-bind="text: $data.description" class="eepromContentDescriptionLabel"></td>
+                <!-- textbox -->
+                <td><input type="text" data-bind="value: $data.value" class="eepromContentInputBox"/></td>
+                <!-- trashcan -->
+                <td data-bind="if: ($parent.Name == 'Favorites')"><i class="icon-trash" data-bind="click: function(){updateFavorites($data, 0);}" style="font-size: 17px;"></i></td>
+              </tr>
+              </tbody>
+
+            </table>
+          </div>
+        <!-- /Accordion Panel Body -->
+      </div>
+    </div>
+
+</div>

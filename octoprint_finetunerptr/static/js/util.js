@@ -9,10 +9,16 @@ var collapseAllBootstrapAccordionPanels = function(index) {
    }
 };
 
+var toggleNavbarDropdownPanel = function(strict) {
+   // block/none
+   var el = document.getElementsByClassName("finetunerptr_dropdown")[0]
+   var currentDisplayState = el.style.display;
+   el.style.display =
+      strict || (currentDisplayState == "none") ? 'block' : 'none';
+}
 
-
-var updateFavorites = function(data) {
-  //  console.log("############# updateFavorites clicked #############");
+// data = element to handle , method = 1=add / 0=delete
+var updateFavorites = function(data, method) {
    var _fullname = "__eepromSettings__favorites";
    var savedData = JSON.parse(localStorage.getItem(_fullname));
 
@@ -31,11 +37,21 @@ var updateFavorites = function(data) {
       }
    }
 
-   // Dont add entry if already member
-   if (!knownEntry && data && data.description) {
-      // console.log("dataDescription via onClick injected: \n", data);
-      _localStorageData.eepromFavorites.push(data.description);
-      localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+   switch (method) {
+      case 0:
+         // Delete
+         if (knownEntry && data && data.description) {
+            _localStorageData.eepromFavorites.splice(_localStorageData.eepromFavorites.indexOf(data.description), 1);
+            localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+         }
+         break;
+      case 1:
+         // Dont add entry if already member
+         if (!knownEntry && data && data.description) {
+            _localStorageData.eepromFavorites.push(data.description);
+            localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+         }
+         break;
    }
 
    scopeFavorites(_localStorageData.eepromFavorites);
@@ -44,13 +60,12 @@ var updateFavorites = function(data) {
 var scopeFavorites = function(favArray) {
    return new Promise(function(resolve, reject) {
       let promises = [];
-      // console.log("#scopeFavorites");
       self.categorizedEeprom[0].EEPROM_Descriptions = favArray;
 
       for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
          let prom = new Promise(function(resolve, reject) {
             getEepromValue(favArray[favArrCount])
-               .then(function(dataObj){
+               .then(function(dataObj) {
                   var eepromValuesObj = {
                      'category': dataObj.category,
                      'description': dataObj.description,
@@ -75,7 +90,7 @@ var scopeFavorites = function(favArray) {
    });
 };
 
-var getEepromValue = function(description){
+var getEepromValue = function(description) {
    return new Promise(function(resolve, reject) {
       var output = {};
       for (var i = 0; i < self.categorizedEeprom.length; i++) {
@@ -90,3 +105,44 @@ var getEepromValue = function(description){
       reject("Error:: " + description);
    });
 };
+
+
+// DropDown Menu specific methods + jQuery
+//http://stackoverflow.com/a/2234986
+function isDescendant(parent, child) {
+   var node = child.parentNode;
+   while (node != null) {
+      if (node == parent) {
+         return true;
+      }
+      node = node.parentNode;
+   }
+   return false;
+}
+
+//http://stackoverflow.com/questions/3440022/mouse-click-somewhere-else-on-page-not-on-a-specific-div
+(function($) {
+   $.fn.outside = function(ename, cb) {
+      return this.each(function() {
+         var $this = $(this),
+            self = this;
+         $(document.body).bind(ename, function tempo(e) {
+            if (e.target !== self && !$.contains(self, e.target)) {
+               cb.apply(self, [e]);
+               if (!self.parentNode) $(document.body).unbind(ename, tempo);
+            }
+         });
+      });
+   };
+}(jQuery));
+
+$('.finetunerptr_dropdownBtn').outside('click', function(e) {
+   var el = document.getElementsByClassName("finetunerptr_dropdown")[0];
+   var isChild = isDescendant(el, e.target);
+   var isDropDownBody = (e.target.className === "finetunerptr_dropdown");
+   var isDeleteBtn = (e.target.className === "icon-trash");
+   if (!isChild && !isDropDownBody && !isDeleteBtn) {
+      $('.finetunerptr_dropdown').hide();
+   }
+});
+// /DropDown Menu specific methods + jQuery

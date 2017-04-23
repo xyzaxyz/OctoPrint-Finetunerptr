@@ -8,7 +8,7 @@
 <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/connection.js") }}"></script>
 <script>var opClient = new OctoPrintClient({baseurl: "", apikey: ""});</script>
 
-<form>
+<form style="float:left;">
   <div class="form-group">
   <h5 style="margin:0;">Printer Connection</h5>
   <div data-bind="if: !isConnected()">
@@ -21,8 +21,19 @@
   </div>
   </div>
 </form>
+<!-- TODO Slider für Temps, rastet zwischen 0 und 150 ein bei Extruder, drüber in 5-Grad Schritten -->
+<!-- TODO Normale Axis Controls -->
+<!-- TODO Mini Webcam Bild -->
 
-<h5 style="margin:0;">EEPROM Manager</h5>
+<form style="float:left; margin-left: 12px; padding-left: 12px; border-left: 1px solid #DDD;">
+  <div class="form-group">
+  <h5 style="margin:0;">Printer Controls</h5>
+    <button class="btn" data-bind="click: function(){ setRepetierMotorsOff(); }">Motors Off</button>
+    <button class="btn">Home XY</button>
+  </div>
+</form>
+
+<h5 style="margin:0;clear:both;">EEPROM Manager</h5>
 <div style="font-weight:bold;font-size: 10px;">
 <span data-bind="visible: ($root.eepromLoaded() && isConnected())" style="color:green;">EEPROM Loaded</span>
 <span data-bind="visible: (!$root.eepromLoaded() || !isConnected())" style="color:orange;">EEPROM Not Loaded</span>

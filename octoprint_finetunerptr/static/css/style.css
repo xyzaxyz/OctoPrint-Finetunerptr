@@ -1,15 +1,27 @@
+.dropDownCaret{
+  vertical-align: middle; margin-left: 3px;
+}
+
+.indicatorShell{
+  float:left;height:13px;width:13px; border-radius: 4px; border: 1px solid rgba(117, 117, 117, 0.63); margin: 3px 3px 0 0;overflow:hidden;
+}
+
+.indicatorBody{
+  height:100%;width:100%;
+}
+
 .eepromCollapse {}
 
 .eepromContentPanel {
     margin-bottom: 10px;
 }
 
-.panel-heading{
-  height:100%;
+.panel-heading {
+    height: 100%;
 }
 
-.btnIcon{
-  margin-right: 4px;
+.btnIcon {
+    margin-right: 4px;
 }
 
 .categorizedEepromCategory {
@@ -17,9 +29,7 @@
     margin-bottom: 15px;
     padding-left: 15px;
     border-radius: 3px;
-    width: 65%;
-    /*background: -webkit-linear-gradient(bottom, rgba(228, 228, 228, 0.5), white);*/
-    /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);*/
+    width: 100%;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
     margin-bottom: 5px;
 }
@@ -54,4 +64,27 @@
     border-radius: 3px;
     border: 1px solid #777;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.52);
+}
+
+.finetunerptr_dropdown {
+    position: absolute;
+    top: 100%;
+    left: -403px;
+    z-index: 1000;
+    width: 405px;
+    padding: 15px 20px 0px;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
 }
