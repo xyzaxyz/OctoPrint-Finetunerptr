@@ -15,7 +15,6 @@ archive: https://github.com/xyzaxyz/OctoPrint-Finetunerptr/archive/master.zip
 
 follow_dependency_links: false
 
-# TODO
 tags:
 - finetunerptr
 - repetier
@@ -43,5 +42,7 @@ compatibility:
 
 ---
 
-**TODO**: Longer description of your plugin, configuration examples etc. This part will be visible on the page at
-http://plugins.octoprint.org/plugin/finetunerptr/
+Clean and structured UI for Repetier-Firmware based printers. 
+Helps you in maintainance situations as it keeps the most important tools always accessible.
+
+![NavbarDropDownPlugin](https://raw.githubusercontent.com/xyzaxyz/OctoPrint-Finetunerptr/master/OctoPrint-FineTuneRptr.png)
