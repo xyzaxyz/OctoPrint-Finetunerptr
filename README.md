@@ -1,9 +1,5 @@
 # OctoPrint-FineTuneRptr
 
-#### Description
-Clean and structured UI for Repetier-Firmware based printers.
-Helps you in maintainance situations as it keeps the most important tools always accessible.
-
 #### Functionality
 + Editing EEPROM Data in categorized view
 + Adding EEPROM values to a list of favorites for better summary
