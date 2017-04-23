@@ -29,7 +29,7 @@ class FineTuneRptrPlugin(octoprint.plugin.AssetPlugin,
             )
         )
 
-__plugin_name__ = "TuneRptr"
+__plugin_name__ = "FineTuneRptr"
 
 def __plugin_load__():
 	global __plugin_implementation__
