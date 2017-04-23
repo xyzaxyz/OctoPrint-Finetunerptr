@@ -27,6 +27,7 @@ tags:
 - ui
 - ux
 - administration
+- title
 
 screenshots:
 - url: /assets/img/plugins/finetunerptr/OctoPrint-FineTuneRptr.png
