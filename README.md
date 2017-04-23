@@ -20,4 +20,4 @@ or manually using this URL:
     https://github.com/xyzaxyz/OctoPrint-Finetunerptr/archive/master.zip
 
 ## Screenshot
-![alt tag](https://i.imgur.com/119xWPp.png)
+![NavbarDropDownPlugin](https://raw.githubusercontent.com/xyzaxyz/OctoPrint-Finetunerptr/master/OctoPrint-FineTuneRptr.png)
