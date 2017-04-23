@@ -4,7 +4,7 @@
 Clean and structured UI for Repetier-Firmware based printers.
 Helps you in maintainance situations as it keeps the most important tools always accessible.
 
-###### Functionality
+##### Functionality
 + 
 
 ![alt tag](https://i.imgur.com/119xWPp.png)
