@@ -16,13 +16,35 @@ var categorizedEeprom = [{
          "Printer active [s]",
          "Max. inactive time [ms,0=off]",
          "Stop stepper after inactivity [ms,0=off]",
-         "Coating thickness [mm]",
-         "Enable retraction conversion [0/1]",
-         "Retraction length [mm]",
-         "Retraction speed [mm/s]",
-         "Retraction z-lift [mm]",
-         "Extra extrusion on undo retract [mm]",
-         "Retraction undo speed"
+         "Coating thickness [mm]"
+      ],
+      EEPROM_Values: ko.observableArray([]),
+   },
+   {
+      Name: 'Heaters',
+      Icon: 'fire',
+      EEPROM_Descriptions: [
+         "Bed Heat Manager [0-3]",
+         "Bed PID drive max",
+         "Bed PID drive min",
+         "Bed PID P-gain",
+         "Bed PID I-gain",
+         "Bed PID D-gain",
+         "Bed PID max value [0-255]",
+         "Extr.1 heat manager [0-3]",
+         "Extr.1 PID drive max",
+         "Extr.1 PID drive min",
+         "Extr.1 PID P-gain/dead-time",
+         "Extr.1 PID I-gain",
+         "Extr.1 PID D-gain",
+         "Extr.1 PID max value [0-255]",
+         "Extr.1 X-offset [steps]",
+         "Extr.1 Y-offset [steps]",
+         "Extr.1 Z-offset [steps]",
+         "Extr.1 temp. stabilize time [s]",
+         "Extr.1 temp. for retraction when heating [C]",
+         "Extr.1 distance to retract when heating [mm]",
+         "Extr.1 extruder cooler speed [0-255]"
       ],
       EEPROM_Values: ko.observableArray([]),
    },
@@ -30,6 +52,9 @@ var categorizedEeprom = [{
       Name: 'Steps_Feedrate',
       Icon: 'random',
       EEPROM_Descriptions: [
+         "Extr.1 steps per mm",
+         "Extr.1 max. feedrate [mm/s]",
+         "Extr.1 start feedrate [mm/s]",
          "X-axis steps per mm",
          "Y-axis steps per mm",
          "Z-axis steps per mm",
@@ -39,6 +64,19 @@ var categorizedEeprom = [{
          "X-axis homing feedrate [mm/s]",
          "Y-axis homing feedrate [mm/s]",
          "Z-axis homing feedrate [mm/s]"
+      ],
+      EEPROM_Values: ko.observableArray([]),
+   },
+   {
+      Name: 'Retraction',
+      Icon: 'reply-all',
+      EEPROM_Descriptions: [
+         "Enable retraction conversion [0/1]",
+         "Retraction length [mm]",
+         "Retraction speed [mm/s]",
+         "Retraction z-lift [mm]",
+         "Extra extrusion on undo retract [mm]",
+         "Retraction undo speed"
       ],
       EEPROM_Values: ko.observableArray([]),
    },
@@ -61,6 +99,7 @@ var categorizedEeprom = [{
       EEPROM_Descriptions: [
          "Max. jerk [mm/s]",
          "Max. Z-jerk [mm/s]",
+         "Extr.1 acceleration [mm/s^2]",
          "X-axis acceleration [mm/s^2]",
          "Y-axis acceleration [mm/s^2]",
          "Z-axis acceleration [mm/s^2]",
@@ -72,7 +111,7 @@ var categorizedEeprom = [{
    },
    {
       Name: 'Z_Probe',
-      Icon: 'fire',
+      Icon: 'double-angle-down',
       EEPROM_Descriptions: [
          "Z-probe height [mm]",
          "Max. z-probe - bed dist. [mm]",

@@ -32,8 +32,10 @@
   <form style="float:left; margin-left: 12px; padding-left: 12px; border-left: 1px solid #DDD;">
     <div class="form-group">
     <h5 style="margin:0;">Printer Controls</h5>
-      <button class="btn" data-bind="click: function(){ setPrinterRepetierMotorsOff(); }">Motors Off</button>
-      <button class="btn" data-bind="click: function(){ setPrinterHomeXY(); }">Home XY</button>
+      <button class="btn" data-bind="click: function(){ setPrinterRepetierMotorsOff(); }">
+        <i class="icon-off btnIcon"></i>Motors Off</button>
+      <button class="btn" data-bind="click: function(){ setPrinterHomeXY(); }">
+        <i class="icon-home btnIcon"></i>Home XY</button>
     </div>
   </form>
 
@@ -104,7 +106,7 @@
                 <!-- textbox -->
                 <td><input type="text" data-bind="value: $data.value" class="eepromContentInputBox"/></td>
                 <!-- trashcan -->
-                <td data-bind="if: ($parent.Name == 'Favorites')"><i class="icon-trash" data-bind="click: function(){updateFavorites($data, 0);}" style="font-size: 17px;"></i></td>
+                <td data-bind="if: ($parent.Name == 'Favorites')" style="padding-left: 15px;"><i class="icon-trash" data-bind="click: function(){updateFavorites($data, 0);}" style="font-size: 17px;" title="Remove from favorites"></i></td>
               </tr>
               </tbody>
 

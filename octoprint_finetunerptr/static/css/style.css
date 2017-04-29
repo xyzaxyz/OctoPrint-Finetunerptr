@@ -1,13 +1,21 @@
-.dropDownCaret{
-  vertical-align: middle; margin-left: 3px;
+.dropDownCaret {
+    vertical-align: middle;
+    margin-left: 3px;
 }
 
-.indicatorShell{
-  float:left;height:13px;width:13px; border-radius: 4px; border: 1px solid rgba(117, 117, 117, 0.63); margin: 3px 3px 0 0;overflow:hidden;
+.indicatorShell {
+    float: left;
+    height: 13px;
+    width: 13px;
+    border-radius: 4px;
+    border: 1px solid rgba(117, 117, 117, 0.4);
+    margin: 3px 3px 0 0;
+    overflow: hidden;
 }
 
-.indicatorBody{
-  height:100%;width:100%;
+.indicatorBody {
+    height: 100%;
+    width: 100%;
 }
 
 .eepromCollapse {}
@@ -69,7 +77,10 @@
 .finetunerptr_dropdown {
     position: absolute;
     top: 100%;
-    left: -403px;
+    left: -100%;
+    /*position: fixed;
+    top: 5%;
+    left: 38%;*/
     z-index: 1000;
     width: 405px;
     padding: 15px 20px 0px;

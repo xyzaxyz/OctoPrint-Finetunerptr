@@ -1,3 +1,4 @@
+// executed before panel opens
 var collapseAllBootstrapAccordionPanels = function(index) {
    var elements = document.getElementsByClassName('eepromCollapse');
    for (var i = 0; i < elements.length; i++) {
@@ -9,6 +10,7 @@ var collapseAllBootstrapAccordionPanels = function(index) {
    }
 };
 
+// clicking icon button in navbar
 var toggleNavbarDropdownPanel = function(strict) {
    // block/none
    var el = document.getElementsByClassName("finetunerptr_dropdown")[0]
@@ -46,7 +48,7 @@ var updateFavorites = function(data, method) {
          }
          break;
       case 1:
-         // Dont add entry if already member
+         // Add if not already member
          if (!knownEntry && data && data.description) {
             _localStorageData.eepromFavorites.push(data.description);
             localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
