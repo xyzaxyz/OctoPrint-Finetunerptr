@@ -77,7 +77,8 @@
 .finetunerptr_dropdown {
     position: absolute;
     top: 100%;
-    left: -100%;
+    right: 10px;
+    /*left: -100%;*/
     /*position: fixed;
     top: 5%;
     left: 38%;*/
