@@ -23,8 +23,6 @@
 
 /*
      TODO:
-       - //Kategorie "Other" für nicht erkannte einrichten
-       - //Add Extruder+HeatBed Category
        - Export/Import Full EEPROM compatible for Repetier Host
        - Settings hier abspeichern http://docs.octoprint.org/en/master/plugins/mixins.html#settingsplugin
          statt localStorage
@@ -33,8 +31,6 @@
       - Wenn EEPROM geladen wird, werden Favoriten angezeigt und in ihrer normalen Kategorie
         sind die Einträge noch vorhanden.
         Wenn man wieder lädt, verschwinden die Einträge aus den ursprünglichen Kategorien.
-      - Mobile wird das onclick auf dem btn nicht richtig ausgeführt,
-        Load/Save EEPROM Buttons erscheinen nicht.
 */
 
 $(function() {
@@ -183,7 +179,6 @@ $(function() {
             for (let j in self.categorizedEeprom()[i].EEPROM_Values()) {
                var valObj = self.categorizedEeprom()[i].EEPROM_Values()[j];
                if (valObj.origValue !== valObj.value) {
-                  // console.log("Change detected: ", valObj.value, valObj.origValue, valObj, i, j);
                   self._requestSaveDataToEeprom(valObj.dataType, valObj.position, valObj.value);
                   valObj.origValue = valObj.value;
                }
