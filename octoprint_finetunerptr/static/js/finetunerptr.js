@@ -168,13 +168,11 @@ $(function() {
             });
          })()
          .then(function() {
-            // console.log("Loading EEPROM");
             self._requestEepromData();
          });
       };
 
       self.saveEeprom = function() {
-        //  console.log("Saving EEPROM");
          for (let i in self.categorizedEeprom()) {
             for (let j in self.categorizedEeprom()[i].EEPROM_Values()) {
                var valObj = self.categorizedEeprom()[i].EEPROM_Values()[j];
@@ -219,13 +217,12 @@ $(function() {
          self.isRepetierFirmware(false);
       };
       self.onStartup = function() {
-         $('#navbar_plugin_octoprint_finetunerptr a').on('show', function(e) {
+         $('#navbar_plugin_octoprint_finetunerptr a').on('click', function(e) {
             if (self.isConnected() && !self.isRepetierFirmware()) {
                self._requestFirmwareInfo();
             }
          });
       };
-      // sidebar_plugin_octoprint_finetunerptr_wrapper
    }
    OCTOPRINT_VIEWMODELS.push({
       construct: FinetunerptrViewModel,
