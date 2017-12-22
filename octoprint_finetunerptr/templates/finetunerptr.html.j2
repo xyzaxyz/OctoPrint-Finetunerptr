@@ -6,8 +6,7 @@
 <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/base.js") }}"></script>
 <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/socket.js") }}"></script>
 <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/connection.js") }}"></script>
-<script>var opClient = new OctoPrintClient({baseurl: "", apikey: ""});</script>
-
+<script type="text/javascript" src="{{ url_for("plugin_assets", name="octoprint_finetunerptr", filename="js/util.js") }}"></script>
 
 <a id="navbar_plugin_octoprint_finetunerptr" class="pull-right finetunerptr_dropdownBtn" data-bind="click: function(){ toggleNavbarDropdownPanel(); }" title="FineTuneRptr">
     <i class="icon-crop"></i>
@@ -53,7 +52,7 @@
 
   <h5 style="margin:0;float:left;">EEPROM Manager</h5>
 
-
+<!-- Load / Save Buttons -->
   <form class="form-horizontal" style="margin: -8px 0 15px 10px;float:left;">
       <button class="btn" data-bind="enabled: isRepetierFirmware, click: loadEeprom, visible: (isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
         <i class="icon-download-alt btnIcon"></i>Load</button>
@@ -65,19 +64,19 @@
   <div style="clear:both"></div>
 
   <!-- Selection -->
-    <div data-bind="visible: ($root.eepromLoaded() && isConnected()), foreach: self.categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
+    <div data-bind="visible: ($root.eepromLoaded() && isConnected()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
       <div class="categorizedEepromCategory panel panel-default">
         <div class="panel-heading">
 
           <h5 class="panel-title" data-bind="click: function(){collapseAllBootstrapAccordionPanels($index());}">
             <!-- Icon -->
             <div class="eepromCategorySettingsIcon">
-              <i data-bind="attr:{class: 'icon-' + self.categorizedEeprom[$index()].Icon}"></i>
+              <i data-bind="attr:{class: 'icon-' + $data.Icon}"></i>
             </div>
             <!-- /Icon -->
             <!-- Counter Blob, indicates how much devices are in this category -->
             <div data-bind="if: $root.eepromLoaded()" class="eepromCategorySettingsCounter">
-              <span data-bind="text: EEPROM_Values().length"></span>
+              <span data-bind="text: $data.EEPROM_Values().length"></span>
             </div>
             <!-- /Counter Blob -->
             <a data-toggle="collapse" data-parent="#accordion" data-bind="text: Name, attr:{href: '#collapse' + $index()}">
@@ -86,7 +85,7 @@
         </div>
         <!-- Accordion Panel Body -->
           <div data-bind="if: $root.eepromLoaded(), attr:{id: 'collapse' + $index()}" class="eepromCollapse panel-collapse collapse">
-            <i data-bind="visible: (EEPROM_Values().length<1)">
+            <i data-bind="visible: ($data.EEPROM_Values().length<1)">
             Nothing to show here yet.
             </i>
             <table class="panel-body eepromContentPanel">
@@ -98,7 +97,7 @@
 
                   <i style="font-size: 10px; color: #0088cc;" data-bind="visible: ($parent.Name == 'Favorites'), attr: {class: 'icon-' + $data.Icon }"></i>
 
-                  <i class="icon-star" data-bind="visible: ($parent.Name != 'Favorites'),click: function(){updateFavorites($data, 1);}"></i>
+                  <i class="icon-star" data-bind="visible: ($parent.Name != 'Favorites'),click: function(){$root.updateFavorites($data, 1);}"></i>
 
                 </td>
                 <!-- description -->
@@ -106,7 +105,7 @@
                 <!-- textbox -->
                 <td><input type="text" data-bind="value: $data.value" class="eepromContentInputBox"/></td>
                 <!-- trashcan -->
-                <td data-bind="if: ($parent.Name == 'Favorites')" style="padding-left: 15px;"><i class="icon-trash" data-bind="click: function(){updateFavorites($data, 0);}" style="font-size: 17px;" title="Remove from favorites"></i></td>
+                <td data-bind="if: ($parent.Name == 'Favorites')" style="padding-left: 15px;"><i class="icon-trash" data-bind="click: function(){$root.updateFavorites($data, 0);}" style="font-size: 17px;" title="Remove from favorites"></i></td>
               </tr>
               </tbody>
 
