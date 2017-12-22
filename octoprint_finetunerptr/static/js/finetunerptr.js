@@ -108,7 +108,7 @@ $(function() {
       self.scopeFavorites = function(favArray) {
          return new Promise(function(resolve, reject) {
             let promises = [];
-            self.categorizedEeprom[0].EEPROM_Descriptions = favArray;
+            self.categorizedEeprom()[0].EEPROM_Descriptions = favArray;
 
             for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
                let prom = new Promise(function(resolve, reject) {
