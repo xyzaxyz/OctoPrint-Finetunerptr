@@ -1,3 +1,6 @@
+// execute once, needed in frontend
+var opClient = new OctoPrintClient({baseurl: "", apikey: ""});
+
 // executed before panel opens
 var collapseAllBootstrapAccordionPanels = function(index) {
    var elements = document.getElementsByClassName('eepromCollapse');

@@ -7,8 +7,6 @@
 <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/socket.js") }}"></script>
 <script type="text/javascript" src="{{ url_for("static", filename="js/app/client/connection.js") }}"></script>
 <script type="text/javascript" src="{{ url_for("plugin_assets", name="octoprint_finetunerptr", filename="js/util.js") }}"></script>
-<script>var opClient = new OctoPrintClient({baseurl: "", apikey: ""});</script>
-
 
 <a id="navbar_plugin_octoprint_finetunerptr" class="pull-right finetunerptr_dropdownBtn" data-bind="click: function(){ toggleNavbarDropdownPanel(); }" title="FineTuneRptr">
     <i class="icon-crop"></i>
@@ -54,7 +52,7 @@
 
   <h5 style="margin:0;float:left;">EEPROM Manager</h5>
 
-
+<!-- Load / Save Buttons -->
   <form class="form-horizontal" style="margin: -8px 0 15px 10px;float:left;">
       <button class="btn" data-bind="enabled: isRepetierFirmware, click: loadEeprom, visible: (isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
         <i class="icon-download-alt btnIcon"></i>Load</button>
