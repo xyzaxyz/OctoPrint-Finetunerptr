@@ -6,41 +6,44 @@ var opClient = new OctoPrintClient({
 
 // add / delete / update favorites
 var updateFavorites = function(data, method) {
-    var _fullname = "__eepromSettings__favorites";
-    var savedData = JSON.parse(localStorage.getItem(_fullname));
+    return new Promise(function(resolve, reject) {
 
-    var _localStorageData = {
-        'eepromFavorites': new Array()
-    };
-    // Load known favorites from localStorage
-    if (savedData && data) {
-        var knownEntry = (savedData.indexOf(data.description) !== -1);
-        for (var i in savedData) {
-            _localStorageData.eepromFavorites.push(savedData[i]);
-        }
-    } else if (savedData && !data) {
-        for (var i in savedData) {
-            _localStorageData.eepromFavorites.push(savedData[i]);
-        }
-    }
+        var _fullname = "__eepromSettings__favorites";
+        var savedData = JSON.parse(localStorage.getItem(_fullname));
 
-    switch (method) {
-        case 0:
-            // Delete
-            if (knownEntry && data && data.description) {
-                _localStorageData.eepromFavorites.splice(_localStorageData.eepromFavorites.indexOf(data.description), 1);
-                localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+        var _localStorageData = {
+            'eepromFavorites': new Array()
+        };
+        // Load known favorites from localStorage
+        if (savedData && data) {
+            var knownEntry = (savedData.indexOf(data.description) !== -1);
+            for (var i in savedData) {
+                _localStorageData.eepromFavorites.push(savedData[i]);
             }
-            break;
-        case 1:
-            // Add if not already member
-            if (!knownEntry && data && data.description) {
-                _localStorageData.eepromFavorites.push(data.description);
-                localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+        } else if (savedData && !data) {
+            for (var i in savedData) {
+                _localStorageData.eepromFavorites.push(savedData[i]);
             }
-            break;
-    }
-    return _localStorageData;
+        }
+
+        switch (method) {
+            case 0:
+                // Delete
+                if (knownEntry && data && data.description) {
+                    _localStorageData.eepromFavorites.splice(_localStorageData.eepromFavorites.indexOf(data.description), 1);
+                    localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+                }
+                break;
+            case 1:
+                // Add if not already member
+                if (!knownEntry && data && data.description) {
+                    _localStorageData.eepromFavorites.push(data.description);
+                    localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+                }
+                break;
+        }
+        resolve(_localStorageData);
+    });
 }
 
 // executed before panel opens
