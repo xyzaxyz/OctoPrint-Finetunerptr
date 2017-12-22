@@ -76,8 +76,8 @@ $(function() {
         self.scopeFavorites = function(favArray) {
             return new Promise(function(resolve, reject) {
                 let promises = [];
-                self.categorizedEeprom()[0].EEPROM_Values = ko.observableArray([]);
-                self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray([]);
+                self.categorizedEeprom()[0].EEPROM_Values = ko.observableArray();
+                self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray();
                 self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray(favArray);
 
                 for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
