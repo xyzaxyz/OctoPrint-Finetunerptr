@@ -111,6 +111,7 @@ $(function() {
                 let promises = [];
                 console.log("self.categorizedEeprom()", self.categorizedEeprom());
                 self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray(favArray);
+                console.log("self.categorizedEeprom()[0].EEPROM_Descriptions()", self.categorizedEeprom()[0].EEPROM_Descriptions());
 
                 for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
                     let prom = new Promise(function(resolve, reject) {
@@ -131,11 +132,11 @@ $(function() {
                     promises.push(prom);
                 }
                 Promise.all(promises).then(function(values) {
-                    self.categorizedEeprom[0].EEPROM_Values([]);
+                    self.categorizedEeprom()[0].EEPROM_Values([]);
                     for (let v in values) {
-                        self.categorizedEeprom[0].EEPROM_Values.push(values[v]);
+                        self.categorizedEeprom()[0].EEPROM_Values.push(values[v]);
                     }
-                    resolve(self.categorizedEeprom[0].EEPROM_Values());
+                    resolve(self.categorizedEeprom()[0].EEPROM_Values);
                 });
             });
         };
@@ -143,11 +144,11 @@ $(function() {
         self.getEepromValue = function(description) {
             return new Promise(function(resolve, reject) {
                 var output = {};
-                for (var i = 0; i < self.categorizedEeprom.length; i++) {
-                    for (var j = 0; j < self.categorizedEeprom[i].EEPROM_Values().length; j++) {
-                        if (self.categorizedEeprom[i].EEPROM_Values()[j].description == description) {
-                            self.categorizedEeprom[i].EEPROM_Values()[j].Icon = self.categorizedEeprom[i].Icon;
-                            output = self.categorizedEeprom[i].EEPROM_Values()[j];
+                for (var i = 0; i < self.categorizedEeprom().length; i++) {
+                    for (var j = 0; j < self.categorizedEeprom()[i].EEPROM_Values().length; j++) {
+                        if (self.categorizedEeprom()[i].EEPROM_Values()[j].description == description) {
+                            self.categorizedEeprom()[i].EEPROM_Values()[j].Icon = self.categorizedEeprom()[i].Icon;
+                            output = self.categorizedEeprom()[i].EEPROM_Values()[j];
                             resolve(output);
                         }
                     }
