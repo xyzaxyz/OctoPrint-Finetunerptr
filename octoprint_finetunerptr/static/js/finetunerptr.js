@@ -110,7 +110,7 @@ $(function() {
             return new Promise(function(resolve, reject) {
                 let promises = [];
                 console.log("self.categorizedEeprom()", self.categorizedEeprom());
-                self.categorizedEeprom()[0].EEPROM_Descriptions = favArray;
+                self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray(favArray);
 
                 for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
                     let prom = new Promise(function(resolve, reject) {
