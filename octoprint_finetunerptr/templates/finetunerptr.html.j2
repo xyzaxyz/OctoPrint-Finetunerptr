@@ -72,12 +72,12 @@
           <h5 class="panel-title" data-bind="click: function(){collapseAllBootstrapAccordionPanels($index());}">
             <!-- Icon -->
             <div class="eepromCategorySettingsIcon">
-              <i data-bind="attr:{class: 'icon-' + categorizedEeprom[$index()].Icon}"></i>
+              <i data-bind="attr:{class: 'icon-' + $data.Icon}"></i>
             </div>
             <!-- /Icon -->
             <!-- Counter Blob, indicates how much devices are in this category -->
             <div data-bind="if: $root.eepromLoaded()" class="eepromCategorySettingsCounter">
-              <span data-bind="text: EEPROM_Values().length"></span>
+              <span data-bind="text: $data.EEPROM_Values().length"></span>
             </div>
             <!-- /Counter Blob -->
             <a data-toggle="collapse" data-parent="#accordion" data-bind="text: Name, attr:{href: '#collapse' + $index()}">
@@ -86,7 +86,7 @@
         </div>
         <!-- Accordion Panel Body -->
           <div data-bind="if: $root.eepromLoaded(), attr:{id: 'collapse' + $index()}" class="eepromCollapse panel-collapse collapse">
-            <i data-bind="visible: (EEPROM_Values().length<1)">
+            <i data-bind="visible: ($data.EEPROM_Values().length<1)">
             Nothing to show here yet.
             </i>
             <table class="panel-body eepromContentPanel">
