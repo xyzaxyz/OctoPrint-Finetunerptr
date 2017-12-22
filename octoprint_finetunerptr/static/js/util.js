@@ -20,10 +20,12 @@ var updateFavorites = function(data, method) {
             for (var i in savedData) {
                 _localStorageData.eepromFavorites.push(savedData[i]);
             }
+            resolve(_localStorageData);
         } else if (savedData && !data) {
             for (var i in savedData) {
                 _localStorageData.eepromFavorites.push(savedData[i]);
             }
+            resolve(_localStorageData);
         }
 
         switch (method) {
@@ -33,6 +35,7 @@ var updateFavorites = function(data, method) {
                     _localStorageData.eepromFavorites.splice(_localStorageData.eepromFavorites.indexOf(data.description), 1);
                     localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
                 }
+                resolve(_localStorageData);
                 break;
             case 1:
                 // Add if not already member
@@ -40,9 +43,10 @@ var updateFavorites = function(data, method) {
                     _localStorageData.eepromFavorites.push(data.description);
                     localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
                 }
+                resolve(_localStorageData);
                 break;
         }
-        resolve(_localStorageData);
+        reject("incorrect method signature");
     });
 }
 
