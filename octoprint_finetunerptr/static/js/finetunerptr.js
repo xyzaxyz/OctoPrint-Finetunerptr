@@ -137,7 +137,7 @@ $(function() {
                         self.categorizedEeprom()[0].EEPROM_Values.push(values[v]);
                     }
                     resolve(self.categorizedEeprom()[0].EEPROM_Values);
-                    console.log("resolving : self.scopeFavorites : / self.categorizedEeprom()[0].EEPROM_Values", self.categorizedEeprom()[0].EEPROM_Values);
+                    console.log("resolving : self.scopeFavorites : / self.categorizedEeprom()[0].EEPROM_Values()", self.categorizedEeprom()[0].EEPROM_Values());
                 });
             });
         };
