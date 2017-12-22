@@ -68,10 +68,42 @@ $(function() {
         // data = element to handle , method = 1=add / 0=delete
         // data can be passed from frontend as "addToFavorites"
         self.updateFavorites = function(data, method) {
-            self.categorizedEeprom()[0].EEPROM_Values = ko.observableArray();
-            self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray();
-            updateFavorites(data, method).then(_localStorageData =>
-                self.scopeFavorites(_localStorageData.eepromFavorites));
+
+            var _fullname = "__eepromSettings__favorites";
+            var savedData = JSON.parse(localStorage.getItem(_fullname));
+
+            var _localStorageData = {
+                'eepromFavorites': new Array()
+            };
+            // Load known favorites from localStorage
+            if (savedData && data) {
+                var knownEntry = (savedData.indexOf(data.description) !== -1);
+                for (var i in savedData) {
+                    _localStorageData.eepromFavorites.push(savedData[i]);
+                }
+            } else if (savedData && !data) {
+                for (var i in savedData) {
+                    _localStorageData.eepromFavorites.push(savedData[i]);
+                }
+            }
+
+            switch (method) {
+                case 0:
+                    // Delete
+                    if (knownEntry && data && data.description) {
+                        _localStorageData.eepromFavorites.splice(_localStorageData.eepromFavorites.indexOf(data.description), 1);
+                        localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+                    }
+                    break;
+                case 1:
+                    // Add if not already member
+                    if (!knownEntry && data && data.description) {
+                        _localStorageData.eepromFavorites.push(data.description);
+                        localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
+                    }
+                    break;
+            }
+            self.scopeFavorites(_localStorageData.eepromFavorites);
         };
 
 

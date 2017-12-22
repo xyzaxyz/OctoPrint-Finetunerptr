@@ -4,52 +4,6 @@ var opClient = new OctoPrintClient({
     apikey: ""
 });
 
-// add / delete / update favorites
-var updateFavorites = function(data, method) {
-    return new Promise(function(resolve, reject) {
-
-        var _fullname = "__eepromSettings__favorites";
-        var savedData = JSON.parse(localStorage.getItem(_fullname));
-
-        var _localStorageData = {
-            'eepromFavorites': new Array()
-        };
-        // Load known favorites from localStorage
-        if (savedData && data) {
-            var knownEntry = (savedData.indexOf(data.description) !== -1);
-            for (var i in savedData) {
-                _localStorageData.eepromFavorites.push(savedData[i]);
-            }
-            resolve(_localStorageData);
-        } else if (savedData && !data) {
-            for (var i in savedData) {
-                _localStorageData.eepromFavorites.push(savedData[i]);
-            }
-            resolve(_localStorageData);
-        }
-
-        switch (method) {
-            case 0:
-                // Delete
-                if (knownEntry && data && data.description) {
-                    _localStorageData.eepromFavorites.splice(_localStorageData.eepromFavorites.indexOf(data.description), 1);
-                    localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
-                }
-                resolve(_localStorageData);
-                break;
-            case 1:
-                // Add if not already member
-                if (!knownEntry && data && data.description) {
-                    _localStorageData.eepromFavorites.push(data.description);
-                    localStorage.setItem(_fullname, JSON.stringify(_localStorageData.eepromFavorites));
-                }
-                resolve(_localStorageData);
-                break;
-        }
-        reject("incorrect method signature");
-    });
-}
-
 // executed before panel opens
 var collapseAllBootstrapAccordionPanels = function(index) {
     var elements = document.getElementsByClassName('eepromCollapse');
