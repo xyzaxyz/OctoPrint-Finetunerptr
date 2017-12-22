@@ -97,7 +97,7 @@
 
                   <i style="font-size: 10px; color: #0088cc;" data-bind="visible: ($parent.Name == 'Favorites'), attr: {class: 'icon-' + $data.Icon }"></i>
 
-                  <i class="icon-star" data-bind="visible: ($parent.Name != 'Favorites'),click: function(){updateFavorites($data, 1);}"></i>
+                  <i class="icon-star" data-bind="visible: ($parent.Name != 'Favorites'),click: $root.updateFavorites($data, 1);"></i>
 
                 </td>
                 <!-- description -->
@@ -105,7 +105,7 @@
                 <!-- textbox -->
                 <td><input type="text" data-bind="value: $data.value" class="eepromContentInputBox"/></td>
                 <!-- trashcan -->
-                <td data-bind="if: ($parent.Name == 'Favorites')" style="padding-left: 15px;"><i class="icon-trash" data-bind="click: function(){updateFavorites($data, 0);}" style="font-size: 17px;" title="Remove from favorites"></i></td>
+                <td data-bind="if: ($parent.Name == 'Favorites')" style="padding-left: 15px;"><i class="icon-trash" data-bind="click: $root.updateFavorites($data, 0);" style="font-size: 17px;" title="Remove from favorites"></i></td>
               </tr>
               </tbody>
 
