@@ -65,11 +65,6 @@ $(function() {
          collapseAllBootstrapAccordionPanels()
       };
 
-      // EEPROM Add to Favorites
-      self.addToFav = function(data) {
-         addToFav(data);
-      } // util.js
-
       // EEPROM Favorites Management
       self.updateFavorites = function(data, method) {
          updateFavorites(data, method);
