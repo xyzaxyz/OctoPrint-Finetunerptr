@@ -46,7 +46,6 @@ $(function() {
                 self.connection.isReady() || self.connection.isPaused();
         });
 
-
         self.categorizedEeprom = ko.observableArray(categorizedEeprom);
 
         self.loadedEepromSettingsCounter = ko.observable(0);
@@ -68,7 +67,6 @@ $(function() {
         // data = element to handle , method = 1=add / 0=delete
         // data can be passed from frontend as "addToFavorites"
         self.updateFavorites = function(data, method) {
-
             var _fullname = "__eepromSettings__favorites";
             var savedData = JSON.parse(localStorage.getItem(_fullname));
 
@@ -105,7 +103,6 @@ $(function() {
             }
             self.scopeFavorites(_localStorageData.eepromFavorites);
         };
-
 
         self.scopeFavorites = function(favArray) {
             return new Promise(function(resolve, reject) {
