@@ -5,7 +5,7 @@ var opClient = new OctoPrintClient({
 });
 
 // add / delete / update favorites
-var updateFavorites = function() {
+var updateFavorites = function(data, method) {
     var _fullname = "__eepromSettings__favorites";
     var savedData = JSON.parse(localStorage.getItem(_fullname));
 
