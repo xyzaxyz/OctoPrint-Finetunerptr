@@ -40,6 +40,7 @@ var updateFavorites = function(data, method) {
             }
             break;
     }
+    return _localStorageData;
 }
 
 // executed before panel opens

@@ -68,7 +68,7 @@ $(function() {
         // data = element to handle , method = 1=add / 0=delete
         // data can be passed from frontend as "addToFavorites"
         self.updateFavorites = function(data, method) {
-            updateFavorites(data, method);
+            var _localStorageData = updateFavorites(data, method);
             self.scopeFavorites(_localStorageData.eepromFavorites);
         };
 
