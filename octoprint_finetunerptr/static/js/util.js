@@ -4,7 +4,8 @@ var opClient = new OctoPrintClient({
     apikey: ""
 });
 
-var updateFavorites = function(data, method) {
+// add / delete / update favorites
+var updateFavorites = function() {
     var _fullname = "__eepromSettings__favorites";
     var savedData = JSON.parse(localStorage.getItem(_fullname));
 
@@ -39,59 +40,7 @@ var updateFavorites = function(data, method) {
             }
             break;
     }
-
-    scopeFavorites(_localStorageData.eepromFavorites);
-};
-
-
-var scopeFavorites = function(favArray) {
-    return new Promise(function(resolve, reject) {
-        let promises = [];
-        self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray(favArray);
-
-        for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
-            let prom = new Promise(function(resolve, reject) {
-                getEepromValue(favArray[favArrCount])
-                    .then(function(dataObj) {
-                        var eepromValuesObj = {
-                            'category': dataObj.category,
-                            'description': dataObj.description,
-                            'value': dataObj.value,
-                            'Icon': dataObj.Icon,
-                            'dataType': dataObj.dataType,
-                            'origValue': dataObj.origValue,
-                            'position': dataObj.position,
-                        };
-                        resolve(eepromValuesObj);
-                    });
-            });
-            promises.push(prom);
-        }
-        Promise.all(promises).then(function(values) {
-            self.categorizedEeprom()[0].EEPROM_Values([]);
-            for (let v in values) {
-                self.categorizedEeprom()[0].EEPROM_Values.push(values[v]);
-            }
-            resolve(self.categorizedEeprom()[0].EEPROM_Values);
-        });
-    });
-};
-
-var getEepromValue = function(description) {
-    return new Promise(function(resolve, reject) {
-        var output = {};
-        for (var i = 0; i < self.categorizedEeprom().length; i++) {
-            for (var j = 0; j < self.categorizedEeprom()[i].EEPROM_Values().length; j++) {
-                if (self.categorizedEeprom()[i].EEPROM_Values()[j].description == description) {
-                    self.categorizedEeprom()[i].EEPROM_Values()[j].Icon = self.categorizedEeprom()[i].Icon;
-                    output = self.categorizedEeprom()[i].EEPROM_Values()[j];
-                    resolve(output);
-                }
-            }
-        }
-        reject("Error:: " + description);
-    });
-};
+}
 
 // executed before panel opens
 var collapseAllBootstrapAccordionPanels = function(index) {

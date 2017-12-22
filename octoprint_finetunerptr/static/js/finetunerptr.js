@@ -69,7 +69,58 @@ $(function() {
         // data can be passed from frontend as "addToFavorites"
         self.updateFavorites = function(data, method) {
             updateFavorites(data, method);
-        }
+            self.scopeFavorites(_localStorageData.eepromFavorites);
+        };
+
+
+        self.scopeFavorites = function(favArray) {
+            return new Promise(function(resolve, reject) {
+                let promises = [];
+                self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray(favArray);
+
+                for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
+                    let prom = new Promise(function(resolve, reject) {
+                        self.getEepromValue(favArray[favArrCount])
+                            .then(function(dataObj) {
+                                var eepromValuesObj = {
+                                    'category': dataObj.category,
+                                    'description': dataObj.description,
+                                    'value': dataObj.value,
+                                    'Icon': dataObj.Icon,
+                                    'dataType': dataObj.dataType,
+                                    'origValue': dataObj.origValue,
+                                    'position': dataObj.position,
+                                };
+                                resolve(eepromValuesObj);
+                            });
+                    });
+                    promises.push(prom);
+                }
+                Promise.all(promises).then(function(values) {
+                    self.categorizedEeprom()[0].EEPROM_Values([]);
+                    for (let v in values) {
+                        self.categorizedEeprom()[0].EEPROM_Values.push(values[v]);
+                    }
+                    resolve(self.categorizedEeprom()[0].EEPROM_Values);
+                });
+            });
+        };
+
+        self.getEepromValue = function(description) {
+            return new Promise(function(resolve, reject) {
+                var output = {};
+                for (var i = 0; i < self.categorizedEeprom().length; i++) {
+                    for (var j = 0; j < self.categorizedEeprom()[i].EEPROM_Values().length; j++) {
+                        if (self.categorizedEeprom()[i].EEPROM_Values()[j].description == description) {
+                            self.categorizedEeprom()[i].EEPROM_Values()[j].Icon = self.categorizedEeprom()[i].Icon;
+                            output = self.categorizedEeprom()[i].EEPROM_Values()[j];
+                            resolve(output);
+                        }
+                    }
+                }
+                reject("Error:: " + description);
+            });
+        };
 
         // Motors Off
         self.setPrinterRepetierMotorsOff = function() {
