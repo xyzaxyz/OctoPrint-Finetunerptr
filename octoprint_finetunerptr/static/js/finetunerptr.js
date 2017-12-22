@@ -68,16 +68,16 @@ $(function() {
         // data = element to handle , method = 1=add / 0=delete
         // data can be passed from frontend as "addToFavorites"
         self.updateFavorites = function(data, method) {
+            self.categorizedEeprom()[0].EEPROM_Values = ko.observableArray();
+            self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray();
             updateFavorites(data, method).then(_localStorageData =>
-            self.scopeFavorites(_localStorageData.eepromFavorites));
+                self.scopeFavorites(_localStorageData.eepromFavorites));
         };
 
 
         self.scopeFavorites = function(favArray) {
             return new Promise(function(resolve, reject) {
                 let promises = [];
-                self.categorizedEeprom()[0].EEPROM_Values = ko.observableArray();
-                self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray();
                 self.categorizedEeprom()[0].EEPROM_Descriptions = ko.observableArray(favArray);
 
                 for (var favArrCount = 0; favArrCount < favArray.length; favArrCount++) {
