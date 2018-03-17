@@ -156,7 +156,10 @@ $(function() {
 
     // Motors Off
     self.setPrinterRepetierMotorsOff = function() {
-      if (!self.loginStateViewModel.loggedIn()) return -1;
+      if (!self.loginStateViewModel.loggedIn()){
+        showNotLoggedInNotification();
+         return -1;
+       }
       self.control.sendCustomCommand({
         command: 'M84'
       });
@@ -164,7 +167,10 @@ $(function() {
 
     //  Printer Home XY
     self.setPrinterHomeXY = function() {
-      if (!self.loginStateViewModel.loggedIn()) return -1;
+      if (!self.loginStateViewModel.loggedIn()){
+        showNotLoggedInNotification();
+         return -1;
+       }
       self.control.sendCustomCommand({
         command: 'G28 X0 Y0'
       });
@@ -296,21 +302,15 @@ $(function() {
     };
 
     // EventHandlers ################################################################################
-    // clicking icon button in navbar
-    self.toggleNavbarDropdownPanel = function(strict) {
-      // block/none
-      if (!self.loginStateViewModel.loggedIn()) {
-        new PNotify({
-          title: 'FineTuneRptr',
-          text: "You must be logged in to use this plugin."
-        });
-        return -1;
-      }
 
-      var el = document.getElementsByClassName("finetunerptr_dropdown")[0]
-      var currentDisplayState = el.style.display;
-      el.style.display =
-        strict || (currentDisplayState == "none") ? 'block' : 'none';
+    self.connectOpClient = function(){
+      if (!self.loginStateViewModel.loggedIn()) showNotLoggedInNotification();
+      if (self.loginStateViewModel.loggedIn()) opClient.connection.connect();
+    }
+
+    self.disconnectOpClient = function(){
+      if (!self.loginStateViewModel.loggedIn()) showNotLoggedInNotification();
+      if (self.loginStateViewModel.loggedIn()) opClient.connection.disconnect();
     }
 
     self.onEventConnected = function() {
