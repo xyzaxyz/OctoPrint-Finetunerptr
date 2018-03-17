@@ -16,24 +16,24 @@
 
   <form style="float:left;">
     <div class="form-group">
-    <h5 style="margin:0;">Printer Connection</h5>
-    <div data-bind="if: !isConnected()">
-      <button class="btn" data-bind="click: function(){opClient.connection.connect()}">
-      <i class="icon-signin btnIcon"></i>Connect</button>
-    </div>
-    <div data-bind="if: isConnected()">
-      <button class="btn" data-bind="click: function(){opClient.connection.disconnect()}">
-      <i class="icon-signout btnIcon"></i>Disconnect</button>
-    </div>
+		<h5 style="margin:0;">Printer Connection</h5>
+		<div data-bind="if: !isConnected()">
+		  <button class="btn" data-bind="enabled: loginStateViewModel.loggedIn(), click: function(){opClient.connection.connect()}">
+		  <i class="icon-signin btnIcon"></i>Connect</button>
+		</div>
+		<div data-bind="if: isConnected()">
+		  <button class="btn" data-bind="enabled: loginStateViewModel.loggedIn(), click: function(){opClient.connection.disconnect()}">
+		  <i class="icon-signout btnIcon"></i>Disconnect</button>
+		</div>
     </div>
   </form>
 
   <form style="float:left; margin-left: 12px; padding-left: 12px; border-left: 1px solid #DDD;">
     <div class="form-group">
     <h5 style="margin:0;">Printer Controls</h5>
-      <button class="btn" data-bind="click: function(){ setPrinterRepetierMotorsOff(); }">
+      <button class="btn" data-bind="enabled: loginStateViewModel.loggedIn(), click: function(){ setPrinterRepetierMotorsOff(); }">
         <i class="icon-off btnIcon"></i>Motors Off</button>
-      <button class="btn" data-bind="click: function(){ setPrinterHomeXY(); }">
+      <button class="btn" data-bind="enabled: loginStateViewModel.loggedIn(), click: function(){ setPrinterHomeXY(); }">
         <i class="icon-home btnIcon"></i>Home XY</button>
     </div>
   </form>
@@ -54,17 +54,17 @@
 
 <!-- Load / Save Buttons -->
   <form class="form-horizontal" style="margin: -8px 0 15px 10px;float:left;">
-      <button class="btn" data-bind="enabled: isRepetierFirmware, click: loadEeprom, visible: (isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
+      <button class="btn" data-bind="enabled: (isRepetierFirmware && loginStateViewModel.loggedIn()), click: loadEeprom, visible: (isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
         <i class="icon-download-alt btnIcon"></i>Load</button>
 
-      <button class="btn" data-bind="enabled: isRepetierFirmware, click: saveEeprom, visible: ($root.eepromLoaded && isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
+      <button class="btn" data-bind="enabled: (isRepetierFirmware && loginStateViewModel.loggedIn()), click: saveEeprom, visible: ($root.eepromLoaded && isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
         <i class="icon-upload-alt btnIcon"></i>Save</button>
   </form>
 
   <div style="clear:both"></div>
 
   <!-- Selection -->
-    <div data-bind="visible: ($root.eepromLoaded() && isConnected()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
+    <div data-bind="visible: ($root.eepromLoaded() && isConnected() && loginStateViewModel.loggedIn()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
       <div class="categorizedEepromCategory panel panel-default">
         <div class="panel-heading">
 

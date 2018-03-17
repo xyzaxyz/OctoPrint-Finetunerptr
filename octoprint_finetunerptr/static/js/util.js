@@ -16,15 +16,6 @@ var collapseAllBootstrapAccordionPanels = function(index) {
     }
 };
 
-// clicking icon button in navbar
-var toggleNavbarDropdownPanel = function(strict) {
-    // block/none
-    var el = document.getElementsByClassName("finetunerptr_dropdown")[0]
-    var currentDisplayState = el.style.display;
-    el.style.display =
-        strict || (currentDisplayState == "none") ? 'block' : 'none';
-}
-
 // DropDown Menu specific methods + jQuery
 //http://stackoverflow.com/a/2234986
 function isDescendant(parent, child) {
