@@ -55,6 +55,10 @@ $(function() {
     });
 
     // Methods ######################################################################################
+    // closeAllNotifications
+    self.closeAllNotifications = function() {
+      closeAllNotifications();
+    }
     // Show Panel Dropdown
     self.toggleNavbarDropdownPanel = function(strict) {
       toggleNavbarDropdownPanel(strict);
