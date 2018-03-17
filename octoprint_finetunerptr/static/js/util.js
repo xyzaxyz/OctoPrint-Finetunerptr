@@ -76,4 +76,5 @@ function closeAllNotifications() {
   for (var i = 0; i < closeBtns.length; i++) {
     closeBtns[i].click();
   }
+  if(i > 0) toggleNavbarDropdownPanel('block');
 }
