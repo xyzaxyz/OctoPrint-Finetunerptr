@@ -4,7 +4,7 @@ import octoprint.plugin
 import octoprint.server
 
 class FineTuneRptrPlugin(octoprint.plugin.AssetPlugin,
-                                      octoprint.plugin.TemplatePlugin):
+                         octoprint.plugin.TemplatePlugin):
     def get_assets(self):
         return dict( js=[
             "js/util.js",

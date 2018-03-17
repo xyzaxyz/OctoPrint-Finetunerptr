@@ -16,32 +16,44 @@
 
   <form style="float:left;">
     <div class="form-group">
-    <h5 style="margin:0;">Printer Connection</h5>
-    <div data-bind="if: !isConnected()">
-      <button class="btn" data-bind="click: function(){opClient.connection.connect()}">
-      <i class="icon-signin btnIcon"></i>Connect</button>
-    </div>
-    <div data-bind="if: isConnected()">
-      <button class="btn" data-bind="click: function(){opClient.connection.disconnect()}">
-      <i class="icon-signout btnIcon"></i>Disconnect</button>
-    </div>
+		<h5 style="margin:0;">Connection</h5>
+		<div data-bind="if: !isConnected()">
+		  <button class="btn btn-primary" data-bind="click: connectOpClient">
+		  <i class="icon-signin btnIcon"></i>Connect</button>
+		</div>
+		<div data-bind="if: isConnected()">
+		  <button class="btn btn-danger" data-bind="click: disconnectOpClient">
+		  <i class="icon-signout btnIcon"></i>Disconnect</button>
+		</div>
     </div>
   </form>
 
   <form style="float:left; margin-left: 12px; padding-left: 12px; border-left: 1px solid #DDD;">
     <div class="form-group">
-    <h5 style="margin:0;">Printer Controls</h5>
-      <button class="btn" data-bind="click: function(){ setPrinterRepetierMotorsOff(); }">
+    <h5 style="margin:0;">Controls</h5>
+      <button class="btn" data-bind="click: setPrinterRepetierMotorsOff">
         <i class="icon-off btnIcon"></i>Motors Off</button>
-      <button class="btn" data-bind="click: function(){ setPrinterHomeXY(); }">
+      <button class="btn" data-bind="click: setPrinterHomeXY">
         <i class="icon-home btnIcon"></i>Home XY</button>
     </div>
   </form>
 
   <div style="clear:both"></div>
 
+  <!-- General Octoprint Helpers -->
+  <form style="float:left;">
+    <div class="form-group">
+    <h5 style="margin:0;">OctoPrint General Helpers</h5>
+      <button class="btn" data-bind="click:  function(){ closeAllNotifications(); }">
+        <i class="icon-inbox btnIcon"></i>Close all Notifications
+      </button>
+    </div>
+  </form>
+
+  <div style="clear:both"></div>
+
   <!-- Indicator -->
-  <div class="indicatorShell">
+  <div class="indicatorShell" data-bind="visible: loginStateViewModel.loggedIn()">
 
     <div data-bind="visible: ($root.eepromLoaded() && isConnected())" style="background-color:#1ec31e;" title="EEPROM Loaded." class="indicatorBody"></div>
     <div data-bind="visible: (!$root.eepromLoaded() && isConnected())" style="background-color:orange;" title="EEPROM ready to load." class="indicatorBody"></div>
@@ -50,10 +62,10 @@
 
   </div>
 
-  <h5 style="margin:0;float:left;">EEPROM Manager</h5>
+  <h5 style="margin:0;float:left;margin-bottom: 8px;" data-bind="visible: loginStateViewModel.loggedIn()">EEPROM Manager</h5>
 
 <!-- Load / Save Buttons -->
-  <form class="form-horizontal" style="margin: -8px 0 15px 10px;float:left;">
+  <form class="form-horizontal" style="margin: -8px 0 15px 10px;float:left;" data-bind="visible: loginStateViewModel.loggedIn()">
       <button class="btn" data-bind="enabled: isRepetierFirmware, click: loadEeprom, visible: (isConnected() && isRepetierFirmware())" style="padding: 2px 10px;">
         <i class="icon-download-alt btnIcon"></i>Load</button>
 
@@ -64,7 +76,7 @@
   <div style="clear:both"></div>
 
   <!-- Selection -->
-    <div data-bind="visible: ($root.eepromLoaded() && isConnected()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
+    <div data-bind="visible: ($root.eepromLoaded() && isConnected() && loginStateViewModel.loggedIn()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px; margin-right: 15px;">
       <div class="categorizedEepromCategory panel panel-default">
         <div class="panel-heading">
 
@@ -79,7 +91,7 @@
               <span data-bind="text: $data.EEPROM_Values().length"></span>
             </div>
             <!-- /Counter Blob -->
-            <a data-toggle="collapse" data-parent="#accordion" data-bind="text: Name, attr:{href: '#collapse' + $index()}">
+            <a data-toggle="collapse" data-parent="#accordion" data-bind="text: Name, attr:{href: '#collapse' + $index()}" style="padding: 13px; padding-right: 50%;">
             </a>
           </h5>
         </div>

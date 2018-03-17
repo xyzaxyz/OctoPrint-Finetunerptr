@@ -13,7 +13,8 @@ or manually using this URL:
 + Connect / Disconnect Printer
 + Turn off the motors
 + Home XY
-
++ Close all system popup-notifications with one click
++ Only logged in users can use the plugin (if access control is active)
 
 ## Screenshot
-![NavbarDropDownPlugin](https://raw.githubusercontent.com/xyzaxyz/OctoPrint-Finetunerptr/master/OctoPrint-FineTuneRptr.png)
+![NavbarDropDownPlugin](images/FineTuneRptr.png)
