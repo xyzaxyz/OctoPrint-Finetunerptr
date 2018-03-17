@@ -16,13 +16,13 @@
 
   <form style="float:left;">
     <div class="form-group">
-		<h5 style="margin:0;">Printer Connection</h5>
+		<h5 style="margin:0;">Connection</h5>
 		<div data-bind="if: !isConnected()">
-		  <button class="btn" data-bind="click: connectOpClient">
+		  <button class="btn btn-primary" data-bind="click: connectOpClient">
 		  <i class="icon-signin btnIcon"></i>Connect</button>
 		</div>
 		<div data-bind="if: isConnected()">
-		  <button class="btn" data-bind="click: disconnectOpClient">
+		  <button class="btn btn-danger" data-bind="click: disconnectOpClient">
 		  <i class="icon-signout btnIcon"></i>Disconnect</button>
 		</div>
     </div>
@@ -30,7 +30,7 @@
 
   <form style="float:left; margin-left: 12px; padding-left: 12px; border-left: 1px solid #DDD;">
     <div class="form-group">
-    <h5 style="margin:0;">Printer Controls</h5>
+    <h5 style="margin:0;">Controls</h5>
       <button class="btn" data-bind="click: setPrinterRepetierMotorsOff">
         <i class="icon-off btnIcon"></i>Motors Off</button>
       <button class="btn" data-bind="click: setPrinterHomeXY">
@@ -45,7 +45,7 @@
     <div class="form-group">
     <h5 style="margin:0;">OctoPrint General Helpers</h5>
       <button class="btn" data-bind="click:  function(){ closeAllNotifications(); }">
-        <i class="icon-times btnIcon"></i>Close all Notifications
+        <i class="icon-inbox btnIcon"></i>Close all Notifications
       </button>
     </div>
   </form>
@@ -76,7 +76,7 @@
   <div style="clear:both"></div>
 
   <!-- Selection -->
-    <div data-bind="visible: ($root.eepromLoaded() && isConnected() && loginStateViewModel.loggedIn()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px;">
+    <div data-bind="visible: ($root.eepromLoaded() && isConnected() && loginStateViewModel.loggedIn()), foreach: categorizedEeprom" class="panel-group" id="accordion" style="margin-bottom: 15px; margin-right: 15px;">
       <div class="categorizedEepromCategory panel panel-default">
         <div class="panel-heading">
 

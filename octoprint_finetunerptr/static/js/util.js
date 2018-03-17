@@ -7,8 +7,7 @@ var opClient = new OctoPrintClient({
 function toggleNavbarDropdownPanel(strict) {
   var el = document.getElementsByClassName("finetunerptr_dropdown")[0]
   var currentDisplayState = el.style.display;
-  el.style.display =
-    strict || (currentDisplayState == "none") ? 'block' : 'none';
+  el.style.display = strict || (currentDisplayState == "none") ? 'block' : 'none';
 }
 
 // executed before panel opens
